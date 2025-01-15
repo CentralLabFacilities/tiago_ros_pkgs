@@ -9,7 +9,7 @@
   <arg name="planner" default="kdl"/>
 
   <!-- Use moveit camera manager -->
-  <arg name="camera"  default="false"/>
+  <arg name="camera"  default="true"/>
 
   <arg name="load_robot_description" default="false"/>
 
@@ -60,6 +60,28 @@
     <include ns="move_group" file="$(find tiago_moveit_config)/launch/sensor_manager.launch.xml" if="$(arg allow_trajectory_execution)">
       <arg name="moveit_sensor_manager" value="tiago" />
     </include>
+
+    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+    <node pkg="nodelet" type="nodelet" name="points" 
+      args="load depth_image_proc/point_cloud_xyz pcl_manager">
+      <remap from="camera_info" to="/camera/depth/camera_info"/>
+      <remap from="image_rect" to="/camera/depth/image_raw"/>
+      <remap from="image" to="/camera/depth/image_raw"/>
+    </node>
+
+    <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+      <remap from="~input" to="/points" />
+      <rosparam>
+        filter_field_name: z
+        filter_limit_min: 0.01
+        filter_limit_max: 1.5
+        filter_limit_negative: False
+        leaf_size: 0.01
+      </rosparam>
+    </node>
+
+    <node name="topic_tools" pkg="topic_tools" type="throttle" respawn="true" output="screen" args="messages /voxel_grid/output 1.0 /voxel_grid/output_throttled"/>
   </group>
 
   <!-- Start the actual move_group node/action server -->
