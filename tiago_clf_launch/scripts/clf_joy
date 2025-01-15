@@ -1,0 +1,104 @@
+#!/usr/bin/env python
+import rospy
+import actionlib
+from std_msgs.msg import Bool
+from visualization_msgs.msg import Marker
+from twist_mux_msgs.msg import JoyPriorityAction
+
+
+class ServiceLikeActionServer(object):
+
+    def __init__(self, action_name, action_type, callback):
+        self._action_type = action_type
+        self._callback = callback
+        self._server = actionlib.SimpleActionServer(
+            action_name, action_type, self._cb, False
+        )
+        self._server.start()
+
+    def _cb(self, goal):
+        self._callback()
+        result = self._action_type().action_result
+        self._server.set_succeeded(result)
+
+
+class TextMarker(object):
+
+    def __init__(self, scale=1.0, z=0.0):
+        self._pub = rospy.Publisher("joy_marker", Marker, queue_size=1, latch=True)
+
+        self._scale = scale
+        self._z = z
+
+        # Build marker
+        self._marker = Marker()
+
+        self._marker.id = 0
+        self._marker.type = Marker.TEXT_VIEW_FACING
+
+        self._marker.header.frame_id = "base_footprint"
+
+        self._marker.pose.position.z = self._z
+
+        self._marker.pose.orientation.w = 1.0
+
+        self._marker.scale.z = self._scale
+
+        self._marker.color.a = 1.0
+        self._marker.color.r = 1.0
+        self._marker.color.g = 1.0
+        self._marker.color.b = 1.0
+
+    def update(self, joystick_priority, add=True):
+        if add:
+            self._marker.action = Marker.ADD
+
+            self._marker.text = "Manual" if joystick_priority else "Autonomous"
+        else:
+            self._marker.action = Marker.DELETE
+
+        self._pub.publish(self._marker)
+
+
+class JoystickRelay:
+
+    def __init__(self):
+        self._current_priority = rospy.get_param("priority", False)
+
+        self._marker = TextMarker(0.5, 2.0)
+
+        self._pub_priority = rospy.Publisher(
+            "joy_priority", Bool, queue_size=1, latch=True
+        )
+
+        # Wait for subscribers and publish initial clf_joy_priority:
+        self._pub_priority.publish(self._current_priority)
+        self._marker.update(self._current_priority)
+
+        # Marker timer (required to update the marker when the robot doesn't receive velocities):
+        rospy.Timer(rospy.Duration(1.0), self._timer_callback)
+
+        # Action servers to change priority & the currently active turbo step.
+        # We aren't using services because they aren't supported by joy_teleop.
+        self._server_priority = ServiceLikeActionServer(
+            "clf_joy_priority_action", JoyPriorityAction, self._toggle_priority
+        )
+
+    def _toggle_priority(self):
+        self._current_priority = not self._current_priority
+        rospy.loginfo(
+            "Toggled joy_priority, current status is: %s", self._current_priority
+        )
+        self._pub_priority.publish(self._current_priority)
+        self._marker.update(self._current_priority)
+
+    def _timer_callback(self, event):
+        self._marker.update(self._current_priority)
+
+
+if __name__ == "__main__":
+    rospy.init_node("clf_joystick_relay")
+
+    server = JoystickRelay()
+
+    rospy.spin()

@@ -1,3 +1,5 @@
+priority_timeout: 100
+
 teleop:
   move:
     type: topic
