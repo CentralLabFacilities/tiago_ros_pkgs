@@ -19,10 +19,9 @@ options = {
   map_builder = MAP_BUILDER,
   trajectory_builder = TRAJECTORY_BUILDER,
   map_frame = "map",
-  tracking_frame = "base_footprint",
+  tracking_frame = "base_imu_link",
   published_frame = "odom",
-  odom_frame = "odom",
-  provide_odom_frame = false,
+  
   publish_frame_projected_to_2d = true,
 --  use_pose_extrapolator = true,
   use_odometry = true,
@@ -42,23 +41,25 @@ options = {
   fixed_frame_pose_sampling_ratio = 1.,
   imu_sampling_ratio = 1.,
   landmarks_sampling_ratio = 1.,
+
+  provide_odom_frame = false,
+  odom_frame = "odom",
+  
 }
 
 MAP_BUILDER.use_trajectory_builder_2d = true
 
 -- crashes after error:
 -- Check failed: sensor_to_tracking->translation().norm() < 1e-5 The IMU frame must be colocated with the tracking frame. Transforming linear acceleration into the tracking frame will otherwise be imprecise
-TRAJECTORY_BUILDER_2D.use_imu_data = false
+TRAJECTORY_BUILDER_2D.use_imu_data = true
 
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 0.15
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.angular_search_window = math.rad(35.)
 
---POSE_GRAPH.constraint_builder.min_score = 0.65
---POSE_GRAPH.constraint_builder.global_localization_min_score = 0.7
+POSE_GRAPH.constraint_builder.min_score = 0.65
+POSE_GRAPH.constraint_builder.global_localization_min_score = 0.7
 
 --POSE_GRAPH.optimization_problem.huber_scale = 1e2
-
-POSE_GRAPH.optimize_every_n_nodes = 30 -- def: 90
 
 return options

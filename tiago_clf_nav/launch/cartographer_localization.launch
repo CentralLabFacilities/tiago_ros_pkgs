@@ -1,14 +1,15 @@
  <launch>
+
+  <arg name="map" default="/home/pal/cartographer.pbstream"/>
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
           -configuration_directory $(find tiago_clf_nav)/config/cartographer
-          -configuration_basename tiago.lua"
+          -configuration_basename tiago_localization.lua
+          -load_state_filename $(arg map)"
       output="screen">
      <remap from="scan" to="/scan_clf" />
      <remap from="odom" to="/mobile_base_controller/odom"/>
      <remap from="imu" to="/base_imu"/>
   </node>
 
-  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
-      type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
  </launch>
