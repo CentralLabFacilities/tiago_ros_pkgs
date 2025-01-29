@@ -9,7 +9,7 @@
   <arg name="planner" default="kdl"/>
 
   <!-- Use moveit camera manager -->
-  <arg name="camera"  default="true"/>
+  <arg name="camera"  default="false"/>
 
   <arg name="load_robot_description" default="false"/>
 
