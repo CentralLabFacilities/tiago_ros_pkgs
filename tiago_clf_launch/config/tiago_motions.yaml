@@ -573,6 +573,13 @@ play_motion:
       - positions: [0.09, 1.02, -3.01, 0.74, -1.54, 1.29, -0.20]
         time_from_start: 2.0
 
+    preplace_after_transport_over_head:
+      joints: [arm_1_joint, arm_2_joint, arm_3_joint, arm_4_joint, arm_5_joint, arm_6_joint, arm_7_joint]
+      meta: {description: preplace_after_transport_over_head, name: preplace after transport over head, usage: demo}
+      points:
+      - positions: [0.35, 0.76, -3.01, 0.76, -1.54, 0.45, -0.20]
+        time_from_start: 2.0
+
 
     cml_carry_on_back:
           joints: [arm_1_joint,
