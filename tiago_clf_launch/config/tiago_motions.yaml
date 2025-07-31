@@ -644,10 +644,9 @@ play_motion:
           arm_2_joint, arm_3_joint, arm_4_joint, arm_5_joint,
           arm_6_joint, arm_7_joint]
           points:
-          - positions: [0.15,-0.03, -0.45,  0.29, 0.21, -1.70, 1.80, -0.69, 1.13, -0.25]
+          - positions: [0.15,-0.27, -0.87,  0.07, 0.21, -1.70, 2.10, 2.07, -0.72, 0.52]
             time_from_start: 1.5
           meta:
             name: look into cup
             usage: demo
             description: 'Moves the gripper so that  the robot can look into the cup'
-            
