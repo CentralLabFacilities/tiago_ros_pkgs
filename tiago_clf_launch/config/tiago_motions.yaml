@@ -650,3 +650,4 @@ play_motion:
             name: look into cup
             usage: demo
             description: 'Moves the gripper so that  the robot can look into the cup'
+
