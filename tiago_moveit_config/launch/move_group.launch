@@ -80,8 +80,12 @@
         leaf_size: 0.01
       </rosparam>
     </node>
-
-    <node name="topic_tools" pkg="topic_tools" type="throttle" respawn="true" output="screen" args="messages /voxel_grid/output 1.0 /voxel_grid/output_throttled"/>
+    
+      <node pkg="nodelet" type="nodelet" name="data_throttle" args="load pcl/NodeletThrottle pcl_manager" output="screen">
+        <param name="update_rate" type="double" value="1"/>
+        <remap from="topic_in"  to="/voxel_grid/output"/>
+        <remap from="topic_out" to="/voxel_grid/output_throttled"/>
+      </node>
   </group>
 
   <!-- Start the actual move_group node/action server -->
