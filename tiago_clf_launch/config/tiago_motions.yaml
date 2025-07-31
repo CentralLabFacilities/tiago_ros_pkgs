@@ -637,4 +637,16 @@ play_motion:
           meta:
             name: transport over head ign j7
             usage: demo
-            description: 'transport over head ign j7'        
+            description: 'transport over head ign j7'   
+                 
+    look_into_cup:
+          joints: [torso_lift_joint, head_1_joint, head_2_joint, arm_1_joint,
+          arm_2_joint, arm_3_joint, arm_4_joint, arm_5_joint,
+          arm_6_joint, arm_7_joint]
+          points:
+          - positions: [0.15,-0.03, -0.45,  0.29, 0.21, -1.70, 1.80, -0.69, 1.13, -0.25]
+            time_from_start: 1.5
+          meta:
+            name: look into cup
+            usage: demo
+            description: 'Moves the gripper so that  the robot can look into the cup'
