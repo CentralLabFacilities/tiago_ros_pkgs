@@ -650,4 +650,14 @@ play_motion:
             name: look into cup
             usage: demo
             description: 'Moves the gripper so that  the robot can look into the cup'
-
+    pregrasp_laundry:
+          joints: [arm_1_joint, arm_2_joint, arm_3_joint, arm_4_joint, arm_5_joint, arm_6_joint, arm_7_joint, 'torso_lift_joint']
+          points:
+          - positions: [ 0.8776, -0.3718, -1.5654, 1.4531, -1.57, 1.36, 0.0, 0.35]
+            time_from_start: 1.0
+          - positions: [ 1.56, 0.3361, 0.0207, 1.4705, -1.57, 0.05, 0.0, 0.35]
+            time_from_start: 3.0
+          meta: 
+            description: pregrasp_laundry
+            name: pregrasp_laundry
+            usage: 'Pregrasp pose for grasping laundry out of basket'
