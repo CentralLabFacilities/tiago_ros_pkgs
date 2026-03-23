@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="map" default="/home/pal/.pal/maps/config/map_obstacles.yaml" />
+
+    <!-- Start map server -->
+    <node name="map_obstacles" pkg="map_server" type="map_server" args="$(arg map)">
+        <remap from="/map" to="/map_obstacles"/>
+    </node>
+    
+</launch>
