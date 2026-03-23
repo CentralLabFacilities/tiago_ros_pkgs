@@ -12,6 +12,8 @@ global_costmap:
   plugins:
     - name: static_layer
       type: 'costmap_2d::StaticLayer'
+    - name: static_layer_obstacles
+      type: 'costmap_2d::StaticLayer'
     - name: current_obstacle_layer
       type: 'costmap_2d::CurrentObstacleLayer'
     - name: inflation_layer
@@ -21,6 +23,12 @@ global_costmap:
     enabled  : true
     subscribe_to_updates: true
     map_topic: /map
+
+  static_layer_obstacles:
+    enabled  : true
+    use_maximum: true
+    subscribe_to_updates: true
+    map_topic: /map_obstacles
 
   current_obstacle_layer:
     enabled: true
