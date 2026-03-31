@@ -8,4 +8,6 @@
 	<remap from="scan" to="/scan_clf"/>
   </node>
 
+  <node pkg="tiago_clf_nav" type="amcl_particle_fan_node" name="amcl_particle_fanning"/>
+
 </launch>
