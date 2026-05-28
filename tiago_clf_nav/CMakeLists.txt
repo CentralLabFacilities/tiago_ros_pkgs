@@ -10,5 +10,6 @@ install(DIRECTORY launch config maps
     
 install(PROGRAMS 
         scripts/amcl_particle_fan_node
+        scripts/particle_fan_stub_node
         scripts/nav_pose.py
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
