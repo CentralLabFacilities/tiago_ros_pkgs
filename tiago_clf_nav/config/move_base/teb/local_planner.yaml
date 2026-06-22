@@ -22,9 +22,9 @@ TebLocalPlannerROS:
   
   max_vel_x: 0.6
   max_vel_x_backwards: 0.05
-  max_vel_theta: 1.0
-  acc_lim_x: 0.75
-  acc_lim_theta: 0.75
+  max_vel_theta: 1.2
+  acc_lim_x: 0.6
+  acc_lim_theta: 1.0
   is_footprint_dynamic: true
   footprint_model:
     type: "circular"
