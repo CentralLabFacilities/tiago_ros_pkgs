@@ -2,7 +2,7 @@
 <launch>
   <!-- Selector for tiago type -->
   <arg name="arm"  default="True"/>
-  <arg name="end_effector"  default="schunk-wsg-cupro"/>
+  <arg name="end_effector"  default="schunk-wsg-cupro-4"/>
   <arg name="ft_sensor"  default="schunk-ft"/>
   <arg name="laser_model"  default="sick-571"/>
   <arg name="camera_model"  default="asus-xtion"/>
@@ -44,6 +44,7 @@
     <arg name="info" value="true"/>
     <arg name="debug" value="$(arg debug)"/>
     <arg name="planner" value="$(arg solver)"/>
+    <arg name="end_effector" value="$(arg end_effector)"/>
   </include>
 
   <!-- Run Rviz and load the default config to see the state of the move_group node -->
